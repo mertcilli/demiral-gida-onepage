@@ -49,7 +49,7 @@
 
 <main>
   <!-- GRUP ŞİRKETLERİ SLIDER -->
-  <section class="show" id="grup" aria-roledescription="carousel" aria-label="Demiral Grup Şirketleri">
+  <section class="show" id="grup" data-dir="next" aria-roledescription="carousel" aria-label="Demiral Grup Şirketleri">
     <div class="show__track">
       <article class="slide is-active" id="s-gida" style="--a:#d8a24a;--b:#1b2466" aria-roledescription="slide" aria-label="1 / 6">
         <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M100 185V60"/><path d="M100 80c-18-4-28-18-28-36 18 2 28 16 28 36zM100 80c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 112c-18-4-28-18-28-36 18 2 28 16 28 36zM100 112c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 144c-18-4-28-18-28-36 18 2 28 16 28 36zM100 144c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 60c-6-14-4-30 0-40 4 10 6 26 0 40z"/></svg></div>
@@ -126,7 +126,12 @@
         <button class="show__nav" type="button" data-dir="1" aria-label="Sonraki şirket"><span>Sonraki</span><i>→</i></button>
       </div>
     </div>
-    <p class="show__hint" aria-hidden="true">Geçiş için sürükleyin</p>
+    <div class="show__count" aria-hidden="true">
+      <div class="show__num"><div class="show__roll"><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span></div></div>
+      <span class="show__total">/ 06</span>
+      <span class="show__rail"><i></i></span>
+      <span class="show__cue"><i></i>Kaydırın</span>
+    </div>
   </section>
 
   <!-- HAKKIMIZDA -->

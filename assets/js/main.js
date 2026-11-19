@@ -48,26 +48,41 @@
     const slides = [...show.querySelectorAll('.slide')];
     const dots = [...show.querySelectorAll('[data-go]')];
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const DUR = 7000;
-    let idx = 0, timer = null, paused = false, visible = true;
+    const DUR = 7000;      // otomatik geçiş süresi
+    const ANIM = 1150;     // geçiş animasyonu süresi
+    let idx = 0, timer = null, paused = false, visible = true, lockUntil = 0;
 
-    const setInert = () => slides.forEach((s, i) => {
-      const on = i === idx;
-      s.toggleAttribute('inert', !on);
-      s.setAttribute('aria-hidden', String(!on));
-    });
+    // çizimlerin "kendini çizme" animasyonu için yol uzunluklarını normalize et
+    show.querySelectorAll('.slide__art *').forEach((el) => el.setAttribute('pathLength', '1'));
 
-    const go = (n) => {
+    const sync = () => {
+      slides.forEach((s, i) => {
+        const on = i === idx;
+        s.toggleAttribute('inert', !on);
+        s.setAttribute('aria-hidden', String(!on));
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === idx)));
+      show.style.setProperty('--i', idx);
+      show.style.setProperty('--p', (idx + 1) / slides.length);
+    };
+
+    const go = (n, dir) => {
       n = (n + slides.length) % slides.length;
       if (n === idx) return;
+      dir = dir || (n > idx ? 1 : -1);
+      // önce yönü uygula, stilleri hesaplat, sonra sınıfları değiştir
+      show.dataset.dir = dir > 0 ? 'next' : 'prev';
+      slides.forEach((s) => s.classList.remove('is-leaving'));
+      void show.offsetWidth;
       const prev = slides[idx];
       prev.classList.remove('is-active');
       prev.classList.add('is-leaving');
-      setTimeout(() => prev.classList.remove('is-leaving'), 1100);
+      clearTimeout(prev._t);
+      prev._t = setTimeout(() => prev.classList.remove('is-leaving'), ANIM + 50);
       idx = n;
       slides[idx].classList.add('is-active');
-      dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === idx)));
-      setInert();
+      lockUntil = performance.now() + ANIM;
+      sync();
       restart();
     };
 
@@ -75,13 +90,16 @@
     const restart = () => {
       stop();
       if (reduce || paused || !visible) return;
-      void show.offsetWidth; // progress animasyonunu sıfırla
+      void show.offsetWidth; // ilerleme çubuğunu sıfırla
       show.classList.add('is-playing');
-      timer = setTimeout(() => go(idx + 1), DUR);
+      timer = setTimeout(() => go(idx + 1, 1), DUR);
     };
     show.style.setProperty('--dur', DUR + 'ms');
 
-    show.querySelectorAll('[data-dir]').forEach((b) => b.addEventListener('click', () => go(idx + Number(b.dataset.dir))));
+    show.querySelectorAll('[data-dir]').forEach((b) => b.addEventListener('click', () => {
+      const d = Number(b.dataset.dir);
+      go(idx + d, d);
+    }));
     dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.go))));
 
     // hover / odakta durdur
@@ -96,11 +114,41 @@
 
     // klavye
     show.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') go(idx + 1);
-      if (e.key === 'ArrowLeft') go(idx - 1);
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(idx + 1, 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); go(idx - 1, -1); }
     });
 
-    // sürükle / kaydır
+    const atTop = () => window.scrollY <= 4;
+    const below = () => document.getElementById('hakkimizda')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+
+    // fare tekerleği / trackpad: sayfa en üstteyken slaytlar arasında gez,
+    // son slayttan sonra (ya da ilk slayttan önce) sayfa normal kaysın
+    let lastT = 0, lastAbs = 0, acc = 0;
+    show.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      const now = performance.now();
+      const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1);
+      const abs = Math.abs(dy);
+      // trackpad ataleti: azalan art arda olaylar yeni bir hareket sayılmaz
+      const inertia = now - lastT < 140 && abs <= lastAbs + 1;
+      lastT = now; lastAbs = abs;
+      if (!atTop()) return;
+      const dir = dy > 0 ? 1 : -1;
+      if (now < lockUntil || inertia) {
+        // kilit/atalet sırasında ne slayt değişir ne sayfa kayar
+        e.preventDefault();
+        return;
+      }
+      if (dir > 0 && idx === slides.length - 1) return; // sayfaya devam
+      if (dir < 0 && idx === 0) return;
+      e.preventDefault();
+      acc += dy;
+      if (Math.abs(acc) < 24) return;
+      acc = 0;
+      go(idx + dir, dir);
+    }, { passive: false });
+
+    // dokunmatik / fare sürükleme: yatay ve dikey
     let x0 = null, y0 = 0, moved = false;
     show.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 || e.target.closest('.show__bar')) return;
@@ -108,15 +156,23 @@
     });
     show.addEventListener('pointermove', (e) => {
       if (x0 === null) return;
-      if (Math.abs(e.clientX - x0) > 10 && Math.abs(e.clientX - x0) > Math.abs(e.clientY - y0)) {
-        moved = true; show.classList.add('is-drag');
-      }
+      if (Math.hypot(e.clientX - x0, e.clientY - y0) > 10) { moved = true; show.classList.add('is-drag'); }
     });
     const end = (e) => {
       if (x0 === null) return;
-      const dx = e.clientX - x0;
+      const dx = e.clientX - x0, dy = e.clientY - y0;
       x0 = null; show.classList.remove('is-drag');
-      if (moved && Math.abs(dx) > 60) go(idx + (dx < 0 ? 1 : -1));
+      if (!moved || performance.now() < lockUntil) return;
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (Math.abs(dx) > 60) go(idx + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+        return;
+      }
+      if (Math.abs(dy) < 50 || e.pointerType === 'mouse') return;
+      const dir = dy < 0 ? 1 : -1; // yukarı kaydırma = sonraki
+      if (!atTop()) { dir > 0 ? below() : window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
+      if (dir > 0 && idx === slides.length - 1) { below(); return; }
+      if (dir < 0 && idx === 0) return;
+      go(idx + dir, dir);
     };
     show.addEventListener('pointerup', end);
     show.addEventListener('pointercancel', () => { x0 = null; show.classList.remove('is-drag'); });
@@ -124,7 +180,7 @@
     show.addEventListener('click', (e) => { if (moved && e.target.closest('a')) { e.preventDefault(); moved = false; } }, true);
     show.addEventListener('dragstart', (e) => e.preventDefault());
 
-    setInert();
+    sync();
     restart();
   }
 
