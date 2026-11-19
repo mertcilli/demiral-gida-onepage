@@ -42,6 +42,92 @@
     io.observe(el);
   });
 
+  // showcase slider
+  const show = document.querySelector('.show');
+  if (show) {
+    const slides = [...show.querySelectorAll('.slide')];
+    const dots = [...show.querySelectorAll('[data-go]')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DUR = 7000;
+    let idx = 0, timer = null, paused = false, visible = true;
+
+    const setInert = () => slides.forEach((s, i) => {
+      const on = i === idx;
+      s.toggleAttribute('inert', !on);
+      s.setAttribute('aria-hidden', String(!on));
+    });
+
+    const go = (n) => {
+      n = (n + slides.length) % slides.length;
+      if (n === idx) return;
+      const prev = slides[idx];
+      prev.classList.remove('is-active');
+      prev.classList.add('is-leaving');
+      setTimeout(() => prev.classList.remove('is-leaving'), 1100);
+      idx = n;
+      slides[idx].classList.add('is-active');
+      dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === idx)));
+      setInert();
+      restart();
+    };
+
+    const stop = () => { clearTimeout(timer); timer = null; show.classList.remove('is-playing'); };
+    const restart = () => {
+      stop();
+      if (reduce || paused || !visible) return;
+      void show.offsetWidth; // progress animasyonunu sıfırla
+      show.classList.add('is-playing');
+      timer = setTimeout(() => go(idx + 1), DUR);
+    };
+    show.style.setProperty('--dur', DUR + 'ms');
+
+    show.querySelectorAll('[data-dir]').forEach((b) => b.addEventListener('click', () => go(idx + Number(b.dataset.dir))));
+    dots.forEach((d) => d.addEventListener('click', () => go(Number(d.dataset.go))));
+
+    // hover / odakta durdur
+    show.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { paused = true; stop(); } });
+    show.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') { paused = false; restart(); } });
+    show.addEventListener('focusin', () => { paused = true; stop(); });
+    show.addEventListener('focusout', (e) => { if (!show.contains(e.relatedTarget)) { paused = false; restart(); } });
+
+    // görünür değilken durdur
+    new IntersectionObserver(([en]) => { visible = en.isIntersecting; restart(); }, { threshold: 0.3 }).observe(show);
+    document.addEventListener('visibilitychange', () => { visible = !document.hidden; restart(); });
+
+    // klavye
+    show.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') go(idx + 1);
+      if (e.key === 'ArrowLeft') go(idx - 1);
+    });
+
+    // sürükle / kaydır
+    let x0 = null, y0 = 0, moved = false;
+    show.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || e.target.closest('.show__bar')) return;
+      x0 = e.clientX; y0 = e.clientY; moved = false;
+    });
+    show.addEventListener('pointermove', (e) => {
+      if (x0 === null) return;
+      if (Math.abs(e.clientX - x0) > 10 && Math.abs(e.clientX - x0) > Math.abs(e.clientY - y0)) {
+        moved = true; show.classList.add('is-drag');
+      }
+    });
+    const end = (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      x0 = null; show.classList.remove('is-drag');
+      if (moved && Math.abs(dx) > 60) go(idx + (dx < 0 ? 1 : -1));
+    };
+    show.addEventListener('pointerup', end);
+    show.addEventListener('pointercancel', () => { x0 = null; show.classList.remove('is-drag'); });
+    // sürükleme sonrası link tıklamasını engelle
+    show.addEventListener('click', (e) => { if (moved && e.target.closest('a')) { e.preventDefault(); moved = false; } }, true);
+    show.addEventListener('dragstart', (e) => e.preventDefault());
+
+    setInert();
+    restart();
+  }
+
   // dialogs
   document.querySelectorAll('[data-open]').forEach((btn) => {
     btn.addEventListener('click', () => document.getElementById(btn.dataset.open)?.showModal());
@@ -58,7 +144,7 @@
   const form = document.getElementById('contactForm');
   const msg = form.querySelector('.form__msg');
   const submit = form.querySelector('button[type=submit]');
-  const show = (text, ok) => { msg.textContent = text; msg.className = 'form__msg ' + (ok ? 'ok' : 'err'); };
+  const say = (text, ok) => { msg.textContent = text; msg.className = 'form__msg ' + (ok ? 'ok' : 'err'); };
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -69,19 +155,19 @@
       if (invalid && !bad) bad = f;
     });
     if (bad) {
-      show(bad.type === 'checkbox' ? 'Devam etmek için KVKK onayını işaretleyin.' : 'Lütfen zorunlu alanları doğru doldurun.', false);
+      say(bad.type === 'checkbox' ? 'Devam etmek için KVKK onayını işaretleyin.' : 'Lütfen zorunlu alanları doğru doldurun.', false);
       bad.focus();
       return;
     }
     submit.disabled = true;
-    show('Gönderiliyor…', true);
+    say('Gönderiliyor…', true);
     try {
       const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
       const data = await res.json();
-      show(data.message, data.success);
+      say(data.message, data.success);
       if (data.success) form.reset();
     } catch {
-      show('Mesaj gönderilemedi. Lütfen info@demiral.com.tr adresine e-posta gönderin.', false);
+      say('Mesaj gönderilemedi. Lütfen info@demiral.com.tr adresine e-posta gönderin.', false);
     } finally {
       submit.disabled = false;
     }

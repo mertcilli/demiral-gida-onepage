@@ -35,10 +35,10 @@
       <span class="brand__txt"><b>Demiral</b> Gıda</span>
     </a>
     <nav class="nav" id="nav" aria-label="Ana menü">
+      <a href="#grup">Grup Şirketleri</a>
       <a href="#hakkimizda">Hakkımızda</a>
       <a href="#faaliyetler">Faaliyet Alanları</a>
       <a href="#kalite">Kalite</a>
-      <a href="#grup">Grup Şirketleri</a>
       <a href="#iletisim" class="nav__cta">İletişim</a>
     </nav>
     <button class="burger" id="burger" aria-label="Menüyü aç" aria-expanded="false" aria-controls="nav">
@@ -48,25 +48,85 @@
 </header>
 
 <main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero__grain" aria-hidden="true"></div>
-    <div class="wrap hero__in">
-      <p class="kicker reveal">Demiral Gıda Ürünleri San. ve Dış Ticaret A.Ş.</p>
-      <h1 class="hero__title reveal">Tedarikten teslimata,<br><em>güvenle</em> gıda.</h1>
-      <p class="hero__lead reveal">Gıda tedariki, üretim ve paketleme, depolama ve lojistik ile toptan ve kurumsal satış süreçlerinde; kalite, süreklilik ve izlenebilirlik odağında çalışıyoruz.</p>
-      <div class="hero__act reveal">
-        <a class="btn btn--light" href="#iletisim">İş birliği için yazın</a>
-        <a class="btn btn--ghost" href="#faaliyetler">Faaliyet alanları</a>
+  <!-- GRUP ŞİRKETLERİ SLIDER -->
+  <section class="show" id="grup" aria-roledescription="carousel" aria-label="Demiral Grup Şirketleri">
+    <div class="show__track">
+      <article class="slide is-active" id="s-gida" style="--a:#d8a24a;--b:#1b2466" aria-roledescription="slide" aria-label="1 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M100 185V60"/><path d="M100 80c-18-4-28-18-28-36 18 2 28 16 28 36zM100 80c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 112c-18-4-28-18-28-36 18 2 28 16 28 36zM100 112c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 144c-18-4-28-18-28-36 18 2 28 16 28 36zM100 144c18-4 28-18 28-36-18 2-28 16-28 36z"/><path d="M100 60c-6-14-4-30 0-40 4 10 6 26 0 40z"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>01</span>Gıda İhracat ve İthalat</p>
+          <h1 class="slide__title"><a href="#hakkimizda"><span class="ln"><span>Demiral</span></span><span class="ln"><span>Gıda</span></span></a></h1>
+          <p class="slide__legal">DEMİRAL GIDA ÜRÜNLERİ SAN. VE DIŞ TİCARET A.Ş.</p>
+          <p class="slide__lead">Tedarikten teslimata güvenle gıda: tedarik, üretim ve paketleme, depolama ve lojistik, toptan satış ve dış ticaret.</p>
+          <a class="slide__cta" href="#hakkimizda" tabindex="-1" aria-hidden="true">Bizi tanıyın <i>↓</i></a>
+        </div>
+      </article>
+      <article class="slide" id="s-gayrimenkul" style="--a:#8fb3ff;--b:#16224f" aria-roledescription="slide" aria-label="2 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M30 180h140"/><path d="M45 180V90h40v90M85 180V45h50v135M135 180v-70h25v70"/><path d="M60 110h10M60 135h10M60 160h10M100 70h20M100 95h20M100 120h20M100 145h20"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>02</span>Gayrimenkul ve İnşaat</p>
+          <h2 class="slide__title"><a href="firma/gayrimenkul.html" target="_blank" rel="noopener"><span class="ln"><span>Demiral</span></span><span class="ln"><span>Gayrimenkul</span></span> <span class="sr">(yeni sekmede açılır)</span></a></h2>
+          <p class="slide__legal">DEMİRAL GAYRİMENKUL İNŞAAT YATIRIM A.Ş.</p>
+          <p class="slide__lead">1985'ten bu yana İstanbul, Tekirdağ ve Kırklareli'de, öz kaynakla oluşturulan portföy üzerinden gayrimenkul ticareti.</p>
+          <a class="slide__cta" href="firma/gayrimenkul.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">Şirketi incele <i>↗</i></a>
+        </div>
+      </article>
+      <article class="slide" id="s-tarim" style="--a:#e9c46a;--b:#1d2f4a" aria-roledescription="slide" aria-label="3 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><circle cx="100" cy="70" r="26"/><path d="M100 30v-10M100 120v-8M60 70H50M150 70h-10M72 42l-7-7M135 105l-7-7M128 42l7-7M65 105l7-7"/><path d="M20 180c40-30 120-30 160 0M30 160c35-22 105-22 140 0"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>03</span>Tarım ve Hayvancılık</p>
+          <h2 class="slide__title"><a href="firma/lojistik-tarim.html" target="_blank" rel="noopener"><span class="ln"><span>Lojistik</span></span><span class="ln"><span>ve Tarım</span></span> <span class="sr">(yeni sekmede açılır)</span></a></h2>
+          <p class="slide__legal">DEMİRAL LOJİSTİK VE TARIM İŞLETMELERİ A.Ş.</p>
+          <p class="slide__lead">Trakya Bölgesi'nde yıllık 750.000 kg buğday ve 250.000 kg ayçiçeği üretimi, son teknoloji tarım ekipmanlarıyla.</p>
+          <a class="slide__cta" href="firma/lojistik-tarim.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">Şirketi incele <i>↗</i></a>
+        </div>
+      </article>
+      <article class="slide" id="s-akya" style="--a:#f0a868;--b:#2a1f3d" aria-roledescription="slide" aria-label="4 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M40 105c0-40 27-65 60-65s60 25 60 65z"/><path d="M78 105v50c0 14 10 22 22 22s22-8 22-22v-50"/><circle cx="80" cy="75" r="6"/><circle cx="118" cy="68" r="5"/><circle cx="102" cy="88" r="4"/><path d="M20 180h160"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>04</span>Gıda Dış Ticaret</p>
+          <h2 class="slide__title"><a href="https://mertcilli.github.io/akyamantar/" target="_blank" rel="noopener"><span class="ln"><span>Akya</span></span><span class="ln"><span>Mantar</span></span> <span class="sr">(yeni sekmede açılır)</span></a></h2>
+          <p class="slide__legal">AKYA MANTAR DIŞ TİCARET A.Ş.</p>
+          <p class="slide__lead">Türkiye'nin zengin doğa mantarı potansiyelini ekonomiye kazandıran ihracat ve ithalat odaklı dış ticaret.</p>
+          <a class="slide__cta" href="https://mertcilli.github.io/akyamantar/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">Web sitesine git <i>↗</i></a>
+        </div>
+      </article>
+      <article class="slide" id="s-sena" style="--a:#7fd1a8;--b:#10302a" aria-roledescription="slide" aria-label="5 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M60 180V140M140 180V130M100 180V120"/><path d="M60 140l-25 0 25-40-18 0 18-35 18 35-18 0 25 40z"/><path d="M140 130l-25 0 25-40-18 0 18-40 18 40-18 0 25 40z"/><path d="M100 120l-30 0 30-50-20 0 20-45 20 45-20 0 30 50z"/><path d="M20 180h160"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>05</span>E-ticaret</p>
+          <h2 class="slide__title"><a href="https://www.sakliorman.com" target="_blank" rel="noopener"><span class="ln"><span>Saklı</span></span><span class="ln"><span>Orman</span></span> <span class="sr">(yeni sekmede açılır)</span></a></h2>
+          <p class="slide__legal">SENA MANTAR VE ORMAN ÜRÜNLERİ A.Ş.</p>
+          <p class="slide__lead">Mantar ve orman ürünlerini Saklı Orman markasıyla e-ticaret üzerinden son tüketiciye ulaştırır.</p>
+          <a class="slide__cta" href="https://www.sakliorman.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">sakliorman.com <i>↗</i></a>
+        </div>
+      </article>
+      <article class="slide" id="s-donusum" style="--a:#b9a4ff;--b:#1e1a4f" aria-roledescription="slide" aria-label="6 / 6">
+        <div class="slide__bg" aria-hidden="true"><svg class="slide__art" viewBox="0 0 200 200"><path d="M30 30h140v140H30z"/><path d="M30 70h140M30 110h140M30 150h140M70 30v140M110 30v140M150 30v140" opacity=".45"/><path d="M50 150l45-80 45 80z"/><circle cx="95" cy="70" r="8"/></svg></div>
+        <div class="wrap slide__in">
+          <p class="slide__sec"><span>06</span>Proje Danışmanlığı</p>
+          <h2 class="slide__title"><a href="firma/donusum-arge.html" target="_blank" rel="noopener"><span class="ln"><span>Dönüşüm</span></span><span class="ln"><span>Ar-Ge</span></span> <span class="sr">(yeni sekmede açılır)</span></a></h2>
+          <p class="slide__legal">DÖNÜŞÜM ARGE VE DANIŞMANLIK A.Ş.</p>
+          <p class="slide__lead">Araştırma-geliştirme ve proje danışmanlığı; her türlü fabrika binası ve konut projesi.</p>
+          <a class="slide__cta" href="firma/donusum-arge.html" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">Şirketi incele <i>↗</i></a>
+        </div>
+      </article>
+    </div>
+    <div class="show__bar">
+      <div class="wrap show__bar-in">
+        <button class="show__nav" type="button" data-dir="-1" aria-label="Önceki şirket"><i>←</i><span>Önceki</span></button>
+        <ol class="show__dots" role="tablist" aria-label="Şirket seç">
+          <li><button type="button" role="tab" aria-controls="s-gida" aria-selected="true" data-go="0"><b>01</b><span>Demiral Gıda</span><em></em></button></li>
+          <li><button type="button" role="tab" aria-controls="s-gayrimenkul" aria-selected="false" data-go="1"><b>02</b><span>Demiral Gayrimenkul</span><em></em></button></li>
+          <li><button type="button" role="tab" aria-controls="s-tarim" aria-selected="false" data-go="2"><b>03</b><span>Lojistik ve Tarım</span><em></em></button></li>
+          <li><button type="button" role="tab" aria-controls="s-akya" aria-selected="false" data-go="3"><b>04</b><span>Akya Mantar</span><em></em></button></li>
+          <li><button type="button" role="tab" aria-controls="s-sena" aria-selected="false" data-go="4"><b>05</b><span>Saklı Orman</span><em></em></button></li>
+          <li><button type="button" role="tab" aria-controls="s-donusum" aria-selected="false" data-go="5"><b>06</b><span>Dönüşüm Ar-Ge</span><em></em></button></li>
+        </ol>
+        <button class="show__nav" type="button" data-dir="1" aria-label="Sonraki şirket"><span>Sonraki</span><i>→</i></button>
       </div>
     </div>
-    <div class="wrap">
-      <ul class="facts reveal" aria-label="Öne çıkanlar">
-        <li><b>1985</b><span>Demiral Grup'un köklerinin uzandığı yıl</span></li>
-        <li><b>6</b><span>Gıdadan tarıma grup şirketi</span></li>
-        <li><b>İhracat<br>&amp; İthalat</b><span>Dış ticarette aktif yapı</span></li>
-      </ul>
-    </div>
+    <p class="show__hint" aria-hidden="true">Geçiş için sürükleyin</p>
   </section>
 
   <!-- HAKKIMIZDA -->
@@ -161,44 +221,6 @@
         <li><span>02</span><div><h3>Kalite</h3><p>Tedarik, üretim ve operasyonda standartlı yaklaşım.</p></div></li>
         <li><span>03</span><div><h3>Sürdürülebilirlik</h3><p>Gelecek odaklı, sorumlu ve istikrarlı büyüme.</p></div></li>
       </ol>
-    </div>
-  </section>
-
-  <!-- GRUP ŞİRKETLERİ -->
-  <section class="sec" id="grup">
-    <div class="wrap">
-      <div class="sec__head reveal">
-        <p class="eyebrow">Demiral Grup Şirketleri</p>
-        <h2>Güçlü bir grubun parçasıyız.</h2>
-        <p>Gayrimenkulden tarıma, danışmanlıktan e-ticarete uzanan kardeş şirketlerimiz.</p>
-      </div>
-      <ul class="group">
-        <li class="group__row reveal is-self">
-          <span class="group__sec">Gıda İhracat ve İthalat</span>
-          <div><h3>Demiral Gıda</h3><p>Gıda ürünleri sanayi, ihracat ve ithalat.</p></div>
-          <span class="group__tag">Bu site</span>
-        </li>
-        <li class="group__row reveal">
-          <span class="group__sec">Gayrimenkul ve İnşaat</span>
-          <div><h3>Demiral Gayrimenkul</h3><p>1985'ten bu yana İstanbul, Tekirdağ ve Kırklareli'de, öz kaynakla oluşturulan portföy üzerinden gayrimenkul ticareti.</p></div>
-        </li>
-        <li class="group__row reveal">
-          <span class="group__sec">Tarım ve Hayvancılık</span>
-          <div><h3>Demiral Lojistik ve Tarım</h3><p>Trakya'da yıllık 750.000 kg buğday ve 250.000 kg ayçiçeği üretimi.</p></div>
-        </li>
-        <li class="group__row reveal">
-          <span class="group__sec">Gıda Dış Ticaret</span>
-          <div><h3>Akya Mantar Dış Ticaret</h3><p>Türkiye'nin doğa mantarı potansiyeline yönelik ihracat ve ithalat.</p></div>
-        </li>
-        <li class="group__row reveal">
-          <span class="group__sec">E-ticaret</span>
-          <div><h3>Sena Mantar ve Orman Ürünleri</h3><p>Mantar ve orman ürünleri, <a href="https://www.sakliorman.com" target="_blank" rel="noopener">Saklı Orman</a> markasıyla son tüketiciye.</p></div>
-        </li>
-        <li class="group__row reveal">
-          <span class="group__sec">Proje Danışmanlığı</span>
-          <div><h3>Dönüşüm Ar-Ge ve Danışmanlık</h3><p>Ar-Ge, proje danışmanlığı; fabrika binası ve konut projeleri.</p></div>
-        </li>
-      </ul>
     </div>
   </section>
 
